@@ -26,6 +26,7 @@ def set_up_training_data(file_name, features) -> pd.DataFrame:
 
 def run(data_file_name: str, model_save_folder, features: list, model="LSTM"):
     data = set_up_training_data(data_file_name, features)
+    data.head().to_csv("training_sample.csv")
     if model == "Transformer":
         print("Transformer Model")
         transModel = TransformerModel(df=data, features=features, predictions="air_temp")

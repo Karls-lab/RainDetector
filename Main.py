@@ -1,5 +1,5 @@
 import ModelCreator
-import CurrentWeather
+# import CurrentWeather
 
 
 def main():

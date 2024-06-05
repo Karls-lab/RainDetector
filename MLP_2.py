@@ -5,7 +5,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPRegressor
 import pickle # Standard python module to save things
 import os
-from FileOperations import FileOperations
 
 """
 The class DataFrame Helper, a class to easily perform common df
@@ -20,14 +19,11 @@ class DFHelp():
         DFHelp.shared_df = self.read_csv_data(csv_file_name)
         self.featureClass = Feature_Engineering()
 
-
     def get_df(self):
         return DFHelp.shared_df
 
-
     def get_head(self, n=10):
         print(DFHelp.shared_df.head(n))
-
 
     def get_info(self):
         print("--------------- INFO ---------------")
@@ -36,7 +32,6 @@ class DFHelp():
         print(f"DF Head: {DFHelp.shared_df.head(5)}")
         print(f"Number of NaN values: {DFHelp.shared_df.isnull().sum().sum()}")
         print("--------------- End ---------------")
-
 
     def read_csv_data(self, csv_file_name: str) -> pd.DataFrame:
         # Get the current path of the current running script
@@ -47,12 +42,10 @@ class DFHelp():
         df = pd.read_csv(path)
         return df  
 
-
     def save_to_csv(self, csv_file_name: str):
         script_path = os.path.abspath(__file__)
         path = os.path.join(os.path.dirname(script_path), csv_file_name)
         DFHelp.shared_df.to_csv(path, index=False)
-
 
     def convert_to_datetime(self, date_col: str, remove_timeZone = False):
         #remove the the MST/MDT, Turn the dates into date objects and sort
@@ -60,7 +53,6 @@ class DFHelp():
             DFHelp.shared_df[date_col] = DFHelp.shared_df[date_col].str[:-4]
         DFHelp.shared_df[date_col] = pd.to_datetime(DFHelp.shared_df[date_col], format="%m/%d/%Y %H:%M")
         DFHelp.shared_df.sort_values(by=date_col, inplace=True)
-
 
     def convert_hour_to_date(self, date_time_col):
         # in this format: %HH:MM, converts it to a date object in mountain daylight time
@@ -70,15 +62,12 @@ class DFHelp():
             mtn_time_entry = current_time.replace(hour=int(hr), minute=int(min), second=0, microsecond=0)
             DFHelp.shared_df.at[index, date_time_col] = mtn_time_entry
 
-
     def convert_to_float16(self, *columns):
         for column in columns:
             DFHelp.shared_df[column] = DFHelp.shared_df[column].astype('float16')
 
-
     # def fill_NAN_with_mean(self, column: str):
         # DFHelp.shared_df[column].fillna(DFHelp.shared_df[column], method="ffill", inplace=True)
-
 
     def remove_NAN(self):
         DFHelp.shared_df = DFHelp.shared_df.dropna()
@@ -132,7 +121,6 @@ class Feature_Engineering():
         columns_to_mean.remove("Date_Time")
         DFHelp.shared_df = DFHelp.shared_df[columns_to_mean].resample(hours).mean()
         DFHelp.shared_df = DFHelp.shared_df.reset_index()
-
 
     def z_score_normalize(self, columns: list, *columns_to_exclude):
         for column in columns:

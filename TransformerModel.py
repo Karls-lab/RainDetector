@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 import logging
 from keras.models import Sequential
 from keras.layers import Dense, LSTM, Dropout, Attention, Bidirectional, Input, Concatenate
@@ -11,7 +12,6 @@ from keras.models import Model
 from keras.layers import MultiHeadAttention, LayerNormalization
 from keras.callbacks import LearningRateScheduler
 import tensorflow as tf
-
 
 
 class TransformerModel():
@@ -138,7 +138,9 @@ class TransformerModel():
 
 
     def saveModel(self):
-        self.model.save("saved_Models/TransfromerModel.keras")
+        path = "saved_Models/TransfromerModel.keras";
+        print("path not found, creating one")
+        # self.model.save("saved_Models/TransfromerModel.keras")
 
 
 
